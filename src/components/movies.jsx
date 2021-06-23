@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Like from "./common/like";
 
 class Movies extends Component {
   state = {
@@ -9,6 +10,7 @@ class Movies extends Component {
         genere: "movie genere 1",
         stock: 10,
         rate: 2.5,
+        liked: true,
       },
       {
         id: "2",
@@ -25,6 +27,15 @@ class Movies extends Component {
         rate: 4.5,
       },
     ],
+  };
+
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+
+    this.setState({ movies });
   };
 
   handleDelete = (movie) => {
@@ -48,6 +59,7 @@ class Movies extends Component {
               <th>Stock</th>
               <th>Rate</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +69,12 @@ class Movies extends Component {
                 <td>{movie.genere}</td>
                 <td>{movie.stock}</td>
                 <td>{movie.rate}</td>
+                <td>
+                  <Like
+                    liked={movie.liked}
+                    onClick={() => this.handleLike(movie)}
+                  />
+                </td>
                 <td>
                   <button
                     onClick={() => this.handleDelete(movie)}
