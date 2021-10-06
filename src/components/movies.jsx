@@ -3,7 +3,7 @@ import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import { getMovies } from "../services/movieService";
-import getGenres from "../services/genreService";
+import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
@@ -19,8 +19,9 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data.data.data];
     this.setState({ movies: getMovies(), genres });
   }
 
@@ -50,9 +51,9 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  handleSearch = query => {
+  handleSearch = (query) => {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
-  }
+  };
 
   getPageData = () => {
     const {
@@ -66,9 +67,10 @@ class Movies extends Component {
 
     let filtered = allMovies;
     if (searchQuery) {
-      filtered = allMovies.filter(m => m.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
-    }
-    else if(selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    } else if (selectedGenre && selectedGenre._id)
       filtered.filter((m) => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -99,7 +101,7 @@ class Movies extends Component {
           <Link
             to="/movies/new"
             className="btn btn-primary"
-            style={{marginBottom: 20}}
+            style={{ marginBottom: 20 }}
           >
             New Movie
           </Link>

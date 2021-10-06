@@ -32,3 +32,10 @@ npm install joi-browser@13.4
 ```
 nvm install --latest-npm
 ```
+
+## Calling Backend Services
+
+```
+npm i axios@0.18
+npm i react-toastify@4.1.0
+```

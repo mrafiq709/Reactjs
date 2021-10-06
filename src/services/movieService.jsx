@@ -1,4 +1,4 @@
-import getGenres from "./genreService";
+import getGenres from "./fakeGenreService";
 
 const movies = [
   {
@@ -8,7 +8,7 @@ const movies = [
     rate: 2.5,
     liked: true,
     genre: {
-      _id: "abcdefgh1",
+      _id: "615c539644ee3a0d1513e4c2",
       name: "Action",
     },
   },
@@ -105,9 +105,9 @@ export function getMovie(id) {
 }
 
 export function saveMovie(movie) {
-  let movieInDb = movies.find(m => m._id === movie._id) || {};
+  let movieInDb = movies.find((m) => m._id === movie._id) || {};
   movieInDb.title = movie.title;
-  movieInDb.genre = getGenres().find(g => g._id === movie.genreId);
+  movieInDb.genre = getGenres().find((g) => g._id === movie.genreId);
   movieInDb.stock = movie.stock;
   movieInDb.rate = movie.rate;
 

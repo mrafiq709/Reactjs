@@ -1,4 +1,4 @@
-const getGenres = () => {
+const getFakeGenres = () => {
   return [
     {
       _id: "abcdefgh1",
@@ -19,4 +19,4 @@ const getGenres = () => {
   ];
 };
 
-export default getGenres;
+export default getFakeGenres;
