@@ -20,8 +20,15 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
+    let obj = { [name]: value };
+    let schema = { [name]: this.schema[name] };
+
+    if (name.endsWith("_confirmation")) {
+      const dependentInput = name.substring(0, name.indexOf("_confirmation"));
+      obj[dependentInput] = this.state.data[dependentInput];
+      schema[dependentInput] = this.schema[dependentInput];
+    }
+
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
